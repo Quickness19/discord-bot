@@ -42,11 +42,55 @@ interface BotCommand {
 
 const commands = new Collection<string, BotCommand>();
 
+commands.set('loveu', {
+    execute: async (message) => {
+        const embed = new EmbedBuilder()
+            .setColor(0x00FF00)
+            .setTitle('I love u too')
+            .setTimestamp();
+        await message.reply({ embeds: [embed] });
+    }
+});
+
+commands.set('help', {
+    execute: async (message) => {
+        const embed = new EmbedBuilder()
+            .setColor(0x00FF00)
+            .setTitle('Commands list')
+            .setDescription("List of commands.")
+            .addFields(
+                { name: '__i help__', value: `⟶ List of commands that this bot can provide.`, inline: false },
+                { name: '__i ea__', value: `⟶ Guide for Patreon or Boosty subscribers.`, inline: false },
+                { name: '__i mpw__', value: `⟶ About MPW Library mod and SA.`, inline: false },
+                { name: '__i mods__', value: `⟶ List of early access mods for different tiers.`, inline: false },
+                { name: '__i suggest__', value: `⟶ About suggestions and bug reports.`, inline: false },
+            )
+            .setTimestamp();
+        await message.reply({ embeds: [embed] });
+    }
+});
+
+commands.set('suggest', {
+    execute: async (message) => {
+        const embed = new EmbedBuilder()
+            .setColor(0x00FF00)
+            .setTitle('How to create a suggestion')
+            .setDescription("Hello! Below is a guide on how to create a suggestion for your idea.")
+            .addFields(
+                { name: 'Use GitHub.', value: `I read it more often than the Discord forum.\n-> <#1449020078401130516>`, inline: false },
+                { name: 'Use discord forum.', value: `I read it there too, but less frequently.\n-> <#1174728604685434980>`, inline: false },
+                { name: 'Report bugs.', value: `We review existing bugs and fix them if necessary. \n-> <#1476990913908572264>`, inline: false },
+            )
+            .setTimestamp();
+        await message.reply({ embeds: [embed] });
+    }
+});
+
 commands.set('ea', {
     execute: async (message) => {
         const embed = new EmbedBuilder()
             .setColor(0x00FF00)
-            .setTitle('Early Access Info')
+            .setTitle('Early access info')
             .setDescription("Hello! If you’re having trouble getting access to Early Access mods, this is for you!")
             .addFields(
                 { name: '1. Connect your Discord account to Patreon or Boosty.', value: `This is required to get your tier role here.`, inline: false },
@@ -69,6 +113,17 @@ commands.set('mpw', {
                 { name: 'Download link', value: `-> https://steamcommunity.com/sharedfiles/filedetails/?id=2953788932`, inline: false },
                 { name: 'SA', value: `SA stands for Special Activation, which is used in most of our mods as an alternative way to activate abilities or other features.`, inline: false },
             )
+            .setTimestamp();
+        await message.reply({ embeds: [embed] });
+    }
+});
+
+commands.set('mpwpanel', {
+    execute: async (message) => {
+        const embed = new EmbedBuilder()
+            .setColor(0x00FF00)
+            .setTitle('MPW settings')
+            .setDescription("Settings for our mods, including the MPW Library, are located in a special button above the Tools tab!")
             .setTimestamp();
         await message.reply({ embeds: [embed] });
     }
