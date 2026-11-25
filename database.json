@@ -1,0 +1,8 @@
+{
+  "customCommands": {},
+  "softban": {
+    "enabled": true,
+    "targetChannel": null,
+    "announceChannel": null
+  }
+}

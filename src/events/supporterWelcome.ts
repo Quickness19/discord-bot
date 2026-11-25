@@ -1,9 +1,4 @@
-import {
-    EmbedBuilder,
-    type GuildMember,
-    type PartialGuildMember,
-    type TextChannel
-} from 'discord.js';
+import { EmbedBuilder, type GuildMember, type PartialGuildMember, type TextChannel } from 'discord.js';
 import { CONFIG } from '../config.js';
 
 export async function handleRoleUpdate(

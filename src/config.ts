@@ -1,3 +1,10 @@
+const SPECIAL_ROLES = {
+    TIER_1: '1167052029592621136',
+    TIER_2: '1167052029592621137',
+    BOOSTER: '1174039260609921114',
+    SPECIAL: '1495295242851581972'
+};
+
 export const CONFIG = {
     PREFIX: "i",
     CHANNELS: {
@@ -17,11 +24,12 @@ export const CONFIG = {
         INTSTUDIO: '1167052029605199884',
         MODERATOR: '1263268123574800406',
         SOFTBAN_PROTECTION: ['1167052029605199884', '1263268123574800406'],
+        SPECIAL_IDS: SPECIAL_ROLES,
         SPECIAL: {
-            '1167052029592621136': { name: 'Tier 1', color: 0x3498db },
-            '1167052029592621137': { name: 'Tier 2', color: 0x9b59b6 },
-            '1174039260609921114': { name: 'Server booster', color: 0xf47fff },
-            '1495295242851581972': { name: 'Tier special', color: 0xe74c3c }
+            [SPECIAL_ROLES.TIER_1]: { name: 'Tier 1', color: 0x3498db },
+            [SPECIAL_ROLES.TIER_2]: { name: 'Tier 2', color: 0x9b59b6 },
+            [SPECIAL_ROLES.BOOSTER]: { name: 'Server booster', color: 0xf47fff },
+            [SPECIAL_ROLES.SPECIAL]: { name: 'Tier special', color: 0xe74c3c }
         } as Record<string, { name: string; color: number }>
     },
     LINKS: {

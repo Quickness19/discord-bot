@@ -1,8 +1,12 @@
 import { type Message, type TextChannel } from 'discord.js';
 import { CONFIG } from '../config.js';
+import { loadDb } from '../database.js';
 
 export async function handleRestrictedChannel(message: Message) {
-    if (message.channelId !== CONFIG.CHANNELS.TARGET) return;
+    const db = loadDb();
+
+    // Проверка статуса и нужного канала из базы
+    if (!db.softban.enabled || !db.softban.targetChannel || message.channelId !== db.softban.targetChannel) return;
 
     const member = message.member;
     if (!member) return;
@@ -24,9 +28,12 @@ export async function handleRestrictedChannel(message: Message) {
 
             console.log(`[MODERATION] Softbanned ${userTag}`);
 
-            const adminChannel = message.guild?.channels.cache.get(CONFIG.CHANNELS.ADMIN) as TextChannel;
-            if (adminChannel) {
-                await adminChannel.send(`**<@${userId}>** has been soft-banned due to a message in a restricted channel.`);
+            // Берем канал уведомлений из базы
+            if (db.softban.announceChannel) {
+                const adminChannel = message.guild?.channels.cache.get(db.softban.announceChannel) as TextChannel;
+                if (adminChannel) {
+                    await adminChannel.send(`**<@${userId}>** has been soft-banned due to a message in a restricted channel.`);
+                }
             }
 
         } catch (e) {
