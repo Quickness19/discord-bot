@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node --loader ts-node/esm --no-warnings ./index.ts",
+    "dev": "node --loader ts-node/esm --no-warnings ./src/index.ts",
+    "register": "node --loader ts-node/esm --no-warnings ./src/register.ts",
     "build": "tsc",
     "start": "node dist/index.js"
   },

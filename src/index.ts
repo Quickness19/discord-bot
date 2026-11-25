@@ -5,8 +5,17 @@ import { commands } from './commands/handler.js';
 import { handleRestrictedChannel } from './events/softban.js';
 import { handleRoleUpdate } from './events/supporterWelcome.js';
 import { handleAutoReaction } from './events/autoReaction.js';
-import { handleSlashCommand, handleModal } from './interactions.js';
+import { handleRoleNotifications } from './events/roleNotifications.js';
+import {
+    handleSlashCommand,
+    handleMessageContextMenu,
+    handleModal,
+    handleSelectMenu,
+    buildCustomCommandComponents,
+    trackCommandMessage
+} from './interactions.js';
 import { loadDb } from './database.js';
+import { canUseCommand } from './permissions.js';
 
 dotenv.config();
 
@@ -28,12 +37,15 @@ client.once('ready', (c) => {
     console.log(`✅ ${c.user.tag} is online!`);
 });
 
-// Обработка Slash Commands и модальных окон
-client.on('interactionCreate', async interaction => {
+client.on('interactionCreate', async (interaction) => {
     if (interaction.isChatInputCommand()) {
         await handleSlashCommand(interaction);
+    } else if (interaction.isMessageContextMenuCommand()) {
+        await handleMessageContextMenu(interaction);
     } else if (interaction.isModalSubmit()) {
         await handleModal(interaction);
+    } else if (interaction.isStringSelectMenu()) {
+        await handleSelectMenu(interaction);
     }
 });
 
@@ -43,23 +55,30 @@ client.on('messageCreate', async (message: Message) => {
     await handleRestrictedChannel(message);
     await handleAutoReaction(message);
 
-    if (!message.content.startsWith(CONFIG.PREFIX)) return;
+    const prefixWithSpace = `${CONFIG.PREFIX} `;
+    if (!message.content.toLowerCase().startsWith(prefixWithSpace)) return;
 
-    const args = message.content.slice(CONFIG.PREFIX.length).trim().split(/ +/);
+    const args = message.content.slice(prefixWithSpace.length).trim().split(/ +/);
     const commandName = args.shift()?.toLowerCase();
 
     if (!commandName) return;
 
-    // 1. Сначала проверяем динамические команды из базы
     const db = loadDb();
-    if (db.customCommands[commandName]) {
-        await message.reply(db.customCommands[commandName]);
+    const customCmd = db.customCommands[commandName];
+    if (customCmd) {
+        if (!canUseCommand(`custom_${commandName}`, message.member)) return;
+        const components = buildCustomCommandComponents(commandName, customCmd);
+        const sent = await message.reply({
+            content: customCmd.content,
+            components
+        });
+        trackCommandMessage(sent.id, commandName);
         return;
     }
 
-    // 2. Затем проверяем хардкод команды из handler.ts
     const command = commands.get(commandName);
     if (command) {
+        if (!canUseCommand(`cmd_${commandName}`, message.member)) return;
         try {
             await command.execute(message, args);
         } catch (error) {
@@ -71,6 +90,7 @@ client.on('messageCreate', async (message: Message) => {
 
 client.on('guildMemberUpdate', async (oldMember, newMember) => {
     await handleRoleUpdate(oldMember, newMember);
+    await handleRoleNotifications(oldMember, newMember);
 });
 
 client.login(process.env.DISCORD_TOKEN);

@@ -1,8 +1,89 @@
 {
-  "customCommands": {},
+  "customCommands": {
+    "mods": {
+      "content": "- Select any mod\n- Download C# Mod Loader",
+      "description": "Mods list to download",
+      "buttons": [
+        {
+          "label": "RE_PPG Mod Loader",
+          "url": "https://github.com/AlibardaWasTaken/RE_PPG/releases"
+        },
+        {
+          "label": "DeSwitcher Mod Loader",
+          "url": "https://deswitchstudio.com/mod/restore-mods"
+        }
+      ],
+      "selectOptions": [
+        {
+          "label": "MPW Library Mod",
+          "url": "https://discord.com/channels/1167052029580029993/1558332048542793789",
+          "description": "Required for most of Int Studio mods. Windows library."
+        },
+        {
+          "label": "Prostheses Mod 2.0",
+          "url": "https://discord.com/channels/1167052029580029993/1575037061314908170",
+          "description": "Prostheses, Implants, Robots and more!"
+        },
+        {
+          "label": "Improved Catalog Mod",
+          "url": "https://discord.com/channels/1167052029580029993/1558334940607680612",
+          "description": "New Catalog UI, Hotbar, Favorite feature and more useful stuff!"
+        },
+        {
+          "label": "Alchemy Mod",
+          "url": "https://discord.com/channels/1167052029580029993/1571904439650881546",
+          "description": "Potions"
+        }
+      ]
+    },
+    "loveu": {
+      "content": "I love you too..!",
+      "description": "Confess your love to the bot",
+      "buttons": [],
+      "selectOptions": []
+    },
+    "team": {
+      "content": "Links related to Int Studio:",
+      "description": "Links to Int Studio stuff",
+      "buttons": [
+        {
+          "label": "Main Youtube",
+          "url": "https://www.youtube.com/@Int_Studio"
+        },
+        {
+          "label": "Second Youtube",
+          "url": "https://www.youtube.com/@Int_Studio_Stuff"
+        },
+        {
+          "label": "Patreon",
+          "url": "https://www.patreon.com/intstudio"
+        },
+        {
+          "label": "Boosty",
+          "url": "https://boosty.to/intstudio"
+        }
+      ],
+      "selectOptions": []
+    },
+    "zips": {
+      "content": "We understand the new method of downloading mods leads to people sharing their zip files here, and although it's effective, it still leaves potential risks as you are not usually meant to download zip files from discord.\n\nIf you are someone who wants to share a mod, please link the page where your mod is public, otherwise raw zip files will be deleted without further warning.",
+      "description": "About zip files here",
+      "buttons": [],
+      "selectOptions": []
+    }
+  },
   "softban": {
-    "enabled": true,
+    "enabled": false,
     "targetChannel": null,
     "announceChannel": null
+  },
+  "commandAccess": {},
+  "notifications": {
+    "booster": {
+      "roleId": "1174039260609921114",
+      "channelId": "1167052029894602827",
+      "content": "Thanks for boost! Now you have access to some patreon mods! Check here: https://discord.com/channels/1167052029580029993/1566793062548508702",
+      "buttons": []
+    }
   }
 }

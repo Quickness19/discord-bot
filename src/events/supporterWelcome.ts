@@ -5,13 +5,15 @@ export async function handleRoleUpdate(
     oldMember: GuildMember | PartialGuildMember,
     newMember: GuildMember
 ) {
+    if (oldMember.partial) return;
+
     const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
 
     for (const [roleId] of addedRoles) {
         const roleConfig = CONFIG.ROLES.SPECIAL[roleId];
 
         if (roleConfig) {
-            const channel = newMember.guild.channels.cache.get(CONFIG.CHANNELS.WELCOME) as TextChannel;
+            const channel = newMember.guild.channels.cache.get(CONFIG.CHANNELS.WELCOME) as TextChannel | undefined;
 
             if (channel) {
                 const embed = new EmbedBuilder()
